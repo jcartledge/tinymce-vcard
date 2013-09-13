@@ -1,0 +1,21 @@
+form {
+  padding-top: 1em;
+}
+
+form .row {
+  line-height: 2em;
+  padding: 0.25em;
+}
+
+form .row label {
+  display: inline-block;
+  min-width: 75px;
+}
+
+form .row input {
+  width: 250px;
+}
+
+form .panel_wrapper .panel {
+  height: 150px;
+}
