@@ -6,9 +6,9 @@
 
     init : function(editor, url) {
       // Register commands
-      editor.addCommand('mceInsertVCard', function(vcard_plugin) {
+      editor.addCommand('mceInsertVCard', function(vcardPlugin) {
         return function() {
-          vcard_plugin._execCommand(editor, url);
+          vcardPlugin._execCommand(editor, url);
         };
       }(this));
 
@@ -18,6 +18,14 @@
         cmd : 'mceInsertVCard',
         image : url + '/img/vcard.gif'
       });
+
+      // Set button active when we're in a vcard instance
+      editor.onNodeChange.add(function(vcardPlugin) {
+        return function(editor, cm, node) {
+          cm.setActive('vcard', !!vcardPlugin._containingVCard(node));
+        };
+      }(this));
+
     },
 
     _execCommand : function(editor, url) {
