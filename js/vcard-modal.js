@@ -45,17 +45,17 @@
   function render(data) {
     var children = [];
     if(data.name) {
-      var name = tag('span', {'class': 'fn'}, data.name);
+      var name = tag('div', {'class': 'fn'}, data.name);
       children.push(data.url ?
         tag('a', {'class': 'url', 'href': data.url}, [name]): name);
     }
-    if(data.role)  children.push(tag('span', {'class': 'role'}, data.role));
+    if(data.role)  children.push(tag('div', {'class': 'role'}, data.role));
     if(data.email) children.push(tag('a', {
       'class': 'email',
       'href': 'mailto:' + data.email
     }, data.email));
-    if(data.phone) children.push(tag('span', {'class': 'tel'}, data.phone));
-    return tag('div', [tag('div', {'class': 'vcard'}, children)]).innerHTML;
+    if(data.phone) children.push(tag('div', {'class': 'tel'}, data.phone));
+    return tag('div', [tag('div', {'class': 'vcard mceNonEditable'}, children)]).innerHTML;
   }
 
   var VCardDialog = {
