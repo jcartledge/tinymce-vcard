@@ -29,6 +29,19 @@
     return el;
   }
 
+  function populateForm(form, vcard) {
+    if(!vcard) return;
+    function vcardGet(className, field) {
+      var els = vcard.getElementsByClassName(className);
+      return (els.length) ? els[0][(field ? field : 'innerHTML')] : '';
+    }
+    form.elements.url.value = vcardGet('url', 'href');
+    form.elements.name.value = vcardGet('fn');
+    form.elements.role.value = vcardGet('role');
+    form.elements.email.value = vcardGet('email');
+    form.elements.phone.value = vcardGet('tel');
+  }
+
   function render(data) {
     var children = [];
     if(data.name) {
@@ -49,14 +62,20 @@
 
     'init': function(editor) {
       var form = document.getElementById('vcard-form');
+      var vcard = tinyMCEPopup.params.containingVCard;
+      populateForm(form, vcard);
       tinymce.dom.Event.add(form, 'submit', function(e) {
         var data = {};
         var inputs = this.getElementsByTagName('input');
         for(var i in inputs) {
           data[inputs[i].name] = inputs[i].value;
         }
-        console.log(render(data));
-        editor.execCommand('mceInsertContent', false, render(data));
+        if(vcard) {
+          editor.selection.select(vcard);
+          editor.selection.setContent(render(data));
+        } else {
+          editor.execCommand('mceInsertContent', false, render(data));
+        }
         editor.undoManager.add();
         editor.execCommand('mceRepaint');
         editor.focus();
